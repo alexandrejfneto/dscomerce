@@ -17,7 +17,7 @@ import jakarta.persistence.Table;
 public class Payment {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant moment;
 	
@@ -28,16 +28,16 @@ public class Payment {
 	public Payment() {
 	}
 
-	public Payment(Integer id, Instant moment) {
+	public Payment(Long id, Instant moment) {
 		this.id = id;
 		this.moment = moment;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

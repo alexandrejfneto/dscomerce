@@ -21,7 +21,7 @@ import jakarta.persistence.Table;
 public class Order {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant moment;
@@ -36,7 +36,7 @@ public class Order {
 	public Order() {
 	}
 
-	public Order(Integer id, Instant moment, OrderStatus status, User client) {
+	public Order(Long id, Instant moment, OrderStatus status, User client) {
 		super();
 		this.id = id;
 		this.moment = moment;
@@ -44,11 +44,11 @@ public class Order {
 		this.client = client;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
