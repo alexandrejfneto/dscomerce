@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 public class OrderItem {
 	
 	@EmbeddedId
-	private OrderItemPK orderItemPK = new OrderItemPK();
+	private OrderItemPK id = new OrderItemPK();
 	private Integer quantity;
 	private Double price;
 	
@@ -17,8 +17,8 @@ public class OrderItem {
 	}
 
 	public OrderItem(Order order, Product product, Integer quantity, Double price) {
-		orderItemPK.setOrder(order);
-		orderItemPK.setProduct(product);
+		id.setOrder(order);
+		id.setProduct(product);
 		this.quantity = quantity;
 		this.price = price;
 	}
@@ -40,19 +40,19 @@ public class OrderItem {
 	}
 
 	public Order getOrder() {
-		return orderItemPK.getOrder();
+		return id.getOrder();
 	}
 	
 	public void setOrder(Order order) {
-		orderItemPK.setOrder(order);
+		id.setOrder(order);
 	}
 	
 	public Product getProduct() {
-		return orderItemPK.getProduct();
+		return id.getProduct();
 	}
 	
 	public void setProduct(Product product) {
-		orderItemPK.setProduct(product);		
+		id.setProduct(product);		
 	}
 	
 }
