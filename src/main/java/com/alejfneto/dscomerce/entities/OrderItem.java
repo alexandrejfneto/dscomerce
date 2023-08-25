@@ -1,5 +1,7 @@
 package com.alejfneto.dscomerce.entities;
 
+import java.util.List;
+
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -54,5 +56,5 @@ public class OrderItem {
 	public void setProduct(Product product) {
 		id.setProduct(product);		
 	}
-	
+		
 }
