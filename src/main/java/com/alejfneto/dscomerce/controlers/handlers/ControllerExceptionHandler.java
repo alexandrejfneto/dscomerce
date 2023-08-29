@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.alejfneto.dscomerce.dto.CustomError;
+import com.alejfneto.dscomerce.services.exceptions.DataBaseException;
 import com.alejfneto.dscomerce.services.exceptions.ResourceNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,6 +19,13 @@ public class ControllerExceptionHandler {
 	@ExceptionHandler (ResourceNotFoundException.class)
 	public ResponseEntity<CustomError> resorceNotFound(ResourceNotFoundException e, HttpServletRequest request){
 	HttpStatus status = HttpStatus.NOT_FOUND;
+	CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+	return ResponseEntity.status(status).body(err);
+	}
+	
+	@ExceptionHandler (DataBaseException.class)
+	public ResponseEntity<CustomError> dataBaseException(DataBaseException e, HttpServletRequest request){
+	HttpStatus status = HttpStatus.BAD_REQUEST;
 	CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
 	return ResponseEntity.status(status).body(err);
 	}
