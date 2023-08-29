@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alejfneto.dscomerce.dto.ProductDTO;
 import com.alejfneto.dscomerce.entities.Product;
 import com.alejfneto.dscomerce.repositories.ProductRepository;
+import com.alejfneto.dscomerce.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class ProductService {
@@ -21,7 +22,8 @@ public class ProductService {
 	@Transactional (readOnly = true)
 	public ProductDTO findById(Long id) {
 		Optional <Product> opt = repository.findById(id);
-		Product product = opt.get();
+		Product product = opt.orElseThrow(
+				() -> new ResourceNotFoundException("Recurso não encontrado!"));
 		ProductDTO productDTO = new ProductDTO(product);
 		return productDTO;		
 	}
@@ -35,6 +37,7 @@ public class ProductService {
 	
 	@Transactional
 	public ProductDTO insert(ProductDTO productDTO) {
+		//Metodo Alternativo com instanciacao direta no construtor
 		Product product = new Product (null, productDTO.getName(), productDTO.getDescription(), productDTO.getPrice(), productDTO.getImgUrl());
 		product = repository.save(product);
 		return new ProductDTO(product);
