@@ -1,4 +1,4 @@
-package com.alejfneto.dscomerce.controlers;
+package com.alejfneto.dscomerce.controllers;
 
 import java.net.URI;
 
@@ -25,7 +25,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping (value = "/products")
-public class ProductControler {
+public class ProductController {
 	
 	@Autowired
 	private ProductService service;

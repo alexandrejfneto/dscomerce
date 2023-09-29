@@ -1,4 +1,4 @@
-package com.alejfneto.dscomerce.controlers.handlers;
+package com.alejfneto.dscomerce.controllers.handlers;
 
 import java.time.Instant;
 
