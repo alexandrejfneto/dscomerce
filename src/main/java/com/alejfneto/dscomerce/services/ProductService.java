@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alejfneto.dscomerce.dto.CategoryDTO;
 import com.alejfneto.dscomerce.dto.ProductDTO;
 import com.alejfneto.dscomerce.dto.ProductMinDTO;
+import com.alejfneto.dscomerce.entities.Category;
 import com.alejfneto.dscomerce.entities.Product;
 import com.alejfneto.dscomerce.repositories.ProductRepository;
 import com.alejfneto.dscomerce.services.exceptions.DataBaseException;
@@ -44,7 +46,9 @@ public class ProductService {
 	@Transactional
 	public ProductDTO insert(ProductDTO productDTO) {
 		//Metodo Alternativo com instanciacao direta no construtor
-		Product product = new Product (null, productDTO.getName(), productDTO.getDescription(), productDTO.getPrice(), productDTO.getImgUrl());
+		//Product product = new Product (null, productDTO.getName(), productDTO.getDescription(), productDTO.getPrice(), productDTO.getImgUrl());
+		Product product = new Product ();
+		copyDTOtoEntity(productDTO, product);
 		product = repository.save(product);
 		return new ProductDTO(product);
 	}
@@ -79,5 +83,12 @@ public class ProductService {
 		product.setDescription(productDTO.getDescription());
 		product.setImgUrl(productDTO.getImgUrl());
 		product.setPrice(productDTO.getPrice());
+		
+		product.getCategories().clear();
+		for (CategoryDTO catDTO : productDTO.getCategories()) {
+			Category cat = new Category();
+			cat.setId(catDTO.getId());
+			product.getCategories().add(cat);
+		}
 	}
 }
