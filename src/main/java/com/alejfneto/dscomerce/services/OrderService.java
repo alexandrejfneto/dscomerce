@@ -12,7 +12,6 @@ import com.alejfneto.dscomerce.dto.OrderItemDTO;
 import com.alejfneto.dscomerce.entities.Order;
 import com.alejfneto.dscomerce.entities.OrderItem;
 import com.alejfneto.dscomerce.entities.Product;
-import com.alejfneto.dscomerce.entities.User;
 import com.alejfneto.dscomerce.enums.OrderStatus;
 import com.alejfneto.dscomerce.repositories.OrderItemRepository;
 import com.alejfneto.dscomerce.repositories.OrderRepository;
@@ -33,6 +32,9 @@ public class OrderService {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private AuthService authService;
 
 	@Transactional (readOnly = true)
 	public OrderDTO findById(Long id) {
@@ -40,6 +42,7 @@ public class OrderService {
 		Order order = opt.orElseThrow(
 				() -> new ResourceNotFoundException("Recurso não encontrado!"));
 		OrderDTO orderDTO = new OrderDTO(order);
+		authService.validateSelfOrAdmin(order.getClient().getId());
 		return orderDTO;
 	}
 
