@@ -39,7 +39,7 @@ public class ControllerExceptionHandler {
 	HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
 	ValidationError err = new ValidationError(Instant.now(), status.value(), "Dados Invalidos!", request.getRequestURI());
 	for (FieldError fe : e.getBindingResult().getFieldErrors()) {
-		err.adderrors(fe.getField(), fe.getDefaultMessage());
+		err.addErrors(fe.getField(), fe.getDefaultMessage());
 	}
 	return ResponseEntity.status(status).body(err);
 	}
