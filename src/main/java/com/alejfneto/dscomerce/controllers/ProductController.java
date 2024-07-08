@@ -65,7 +65,7 @@ public class ProductController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@DeleteMapping (value = "/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-		service.deletById(id);
+		service.deleteById(id);
 		return ResponseEntity.noContent().build();
 	}
 }
