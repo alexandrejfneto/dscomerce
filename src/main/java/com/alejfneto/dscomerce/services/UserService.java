@@ -17,6 +17,7 @@ import com.alejfneto.dscomerce.entities.Role;
 import com.alejfneto.dscomerce.entities.User;
 import com.alejfneto.dscomerce.projections.UserDetailsProjection;
 import com.alejfneto.dscomerce.repositories.UserRepository;
+import com.alejfneto.dscomerce.utils.CustomUserUtil;
 
 
 
@@ -25,6 +26,9 @@ public class UserService implements UserDetailsService {
 
 	@Autowired
 	private UserRepository repository;
+	
+	@Autowired
+	private CustomUserUtil customUserUtil;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -43,9 +47,7 @@ public class UserService implements UserDetailsService {
 	
 	protected User authenticated () {
 		try {
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-			Jwt jwtPrincipal = (Jwt) authentication.getPrincipal();
-			String username = jwtPrincipal.getClaim("username");
+			String username = customUserUtil.getLoggedUserName();
 			User user = repository.findByEmail(username).get();
 			return user;
 		} catch (Exception e) {
