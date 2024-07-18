@@ -18,29 +18,30 @@ import com.alejfneto.dscomerce.repositories.OrderRepository;
 import com.alejfneto.dscomerce.repositories.ProductRepository;
 import com.alejfneto.dscomerce.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class OrderService {
-	
+
 	@Autowired
 	private OrderRepository repository;
-	
+
 	@Autowired
 	private ProductRepository productRepository;
-	
+
 	@Autowired
 	private OrderItemRepository orderItemRepository;
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private AuthService authService;
 
-	@Transactional (readOnly = true)
+	@Transactional(readOnly = true)
 	public OrderDTO findById(Long id) {
-		Optional <Order> opt = repository.findById(id);
-		Order order = opt.orElseThrow(
-				() -> new ResourceNotFoundException("Recurso não encontrado!"));
+		Optional<Order> opt = repository.findById(id);
+		Order order = opt.orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado!"));
 		OrderDTO orderDTO = new OrderDTO(order);
 		authService.validateSelfOrAdmin(order.getClient().getId());
 		return orderDTO;
@@ -52,12 +53,17 @@ public class OrderService {
 		order.setMoment(Instant.now());
 		order.setStatus(OrderStatus.WAITING_PAYMENT);
 		order.setClient(userService.authenticated());
-		
-		for (OrderItemDTO itemDTO : orderDTO.getItems()) {
-			Product product = productRepository.getReferenceById(itemDTO.getProductId());
-			OrderItem item = new OrderItem(order, product, itemDTO.getQuantity(), product.getPrice());
-			order.getItems().add(item);
+
+		try {
+			for (OrderItemDTO itemDTO : orderDTO.getItems()) {
+				Product product = productRepository.getReferenceById(itemDTO.getProductId());
+				OrderItem item = new OrderItem(order, product, itemDTO.getQuantity(), product.getPrice());
+				order.getItems().add(item);
+			}
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Um dos produtos está indisponível!");
 		}
+		
 		repository.save(order);
 		orderItemRepository.saveAll(order.getItems());
 		return new OrderDTO(order);
