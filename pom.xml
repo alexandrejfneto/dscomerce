@@ -99,6 +99,8 @@
 						<exclude>com/alejfneto/dscomerce/controllers/handlers/**</exclude>
 						<exclude>com/alejfneto/dscomerce/services/exceptions/**</exclude>
 						<exclude>com/alejfneto/dscomerce/enums/</exclude>
+						<exclude>com/alejfneto/dscomerce/utils/**</exclude>
+						<exclude>com/alejfneto/dscomerce/controllers/**</exclude>
 					</excludes>
 				</configuration>
 				<executions>
